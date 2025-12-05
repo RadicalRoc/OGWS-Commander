@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>OG Wolf Squad – Commander Gameplan Guide</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050814;
+      --bg-alt: #090e1f;
+      --card: #14182a;
+      --card-alt: #181c30;
+      --border: #3d4b75;
+      --text: #f4f6ff;
+      --muted: #9ea7c9;
+      --accent: #ffb347;
+      --accent-soft: rgba(255, 179, 71, 0.18);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.55);
+      --gap-lg: 1.75rem;
+      --gap-md: 1.1rem;
+      --font-main: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      --font-heading: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2.5rem 1.25rem 3rem;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #18213c 0, #050814 55%, #02030a 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      max-width: 1180px;
+      margin: 0 auto 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    header h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 3vw, 2.4rem);
+      letter-spacing: 0.03em;
+      margin: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+
+    header h1 span.badge {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 0.18rem 0.65rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(255, 179, 71, 0.7);
+      color: var(--accent);
+    }
+
+    header p {
+      margin: 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
+    .commander-card {
+      position: relative;
+      padding: 1.1rem 1.4rem 1.3rem;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--card-alt), var(--card));
+      border: 1px solid rgba(122, 134, 186, 0.75);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .commander-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 55%);
+      mix-blend-mode: soft-light;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .commander-inner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .commander-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(90,104,150,0.55);
+      padding-bottom: 0.6rem;
+    }
+
+    .commander-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .commander-name {
+      font-size: 1.35rem;
+      font-weight: 650;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .commander-tagline {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .color-bars {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .color-pill {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.7);
+    }
+
+    .c-w { background: #fdf7e2; }
+    .c-u { background: #bcd7ff; }
+    .c-b { background: #44425e; }
+    .c-r { background: #ff8a71; }
+    .c-g { background: #85c18c; }
+
+    .identity-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      margin-left: 0.35rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.4rem;
+    }
+
+    .pill {
+      font-size: 0.76rem;
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(158,167,201,0.75);
+      color: var(--muted);
+      background: rgba(10,14,30,0.9);
+      backdrop-filter: blur(5px);
+    }
+
+    .pill.highlight {
+      border-color: rgba(255, 179, 71, 0.9);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: 1.1fr 1.2fr 0.9fr;
+      gap: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 980px) {
+      .sections {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section {
+      background: rgba(7, 11, 28, 0.94);
+      border-radius: var(--radius-lg);
+      padding: 0.6rem 0.7rem 0.7rem;
+      border: 1px solid rgba(60, 73, 120, 0.85);
+    }
+
+    .section h3 {
+      margin: 0 0 0.4rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(196, 203, 243, 0.96);
+    }
+
+    .section ul {
+      margin: 0;
+      padding-left: 1rem;
+      list-style: disc;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .section ul li + li {
+      margin-top: 0.24rem;
+    }
+
+    .section ul li strong {
+      color: var(--text);
+      font-weight: 550;
+    }
+
+    footer {
+      max-width: 1180px;
+      margin: 2.2rem auto 0;
+      padding-top: 1.4rem;
+      border-top: 1px solid rgba(90,104,150,0.7);
+      color: var(--muted);
+      font-size: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    footer span {
+      opacity: 0.9;
+    }
+
+    /* subtle color accents per commander */
+    .atlas    { border-image: linear-gradient(135deg,#ffb347,#ff4b4b) 1; }
+    .kalbino  { border-image: linear-gradient(135deg,#f5e5b5,#c9a7ff) 1; }
+    .jiggedy  { border-image: linear-gradient(135deg,#b5e3ff,#fdf7e2) 1; }
+    .jamie    { border-image: linear-gradient(135deg,#ffb347,#f2d4ff) 1; }
+    .mamsen   { border-image: linear-gradient(135deg,#b7f0c1,#e2f2ff) 1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>
+      OG Wolf Squad – Commander Roles
+      <span class="badge">V1.0 Reference</span>
+    </h1>
+    <p>
+      One commander at a time, wide and readable.  
+      Each strip shows your table role, deck archetypes, key synergies, and a few well-known commanders with a similar vibe.
+    </p>
+  </header>
+
+  <main>
+    <!-- ATLAS -->
+    <section class="commander-card atlas">
+      <div class="commander-inner">
+        <div class="commander-header">
+          <div class="commander-title-block">
+            <div class="commander-name">Atlas, Distracted Hazard Destroyer</div>
+            <div class="commander-tagline">Chaotic red engine – hazard, tempo &amp; big splashy turns</div>
+            <div class="pill-row">
+              <span class="pill highlight">Table Instigator</span>
+              <span class="pill">Aggro / Midrange</span>
+              <span class="pill">Chaos &amp; Dice Rolling</span>
+              <span class="pill">Spell-Slinger Support</span>
+              <span class="pill">Commander Damage Threat</span>
+            </div>
+          </div>
+          <div class="color-bars">
+            <span class="color-pill c-r"></span>
+            <span class="identity-label">Mono-Red</span>
+          </div>
+        </div>
+
+        <div class="sections">
+          <div class="section">
+            <h3>Table Role</h3>
+            <ul>
+              <li><strong>Early:</strong> Come down swinging, pressure life totals and test removal. Atlas looks scary fast, so you decide when to lean into that or sandbag.</li>
+              <li><strong>Midgame:</strong> Become the <em>hazard pilot</em> – rolling, flipping or otherwise gambling for big tempo swings that hit everyone.</li>
+              <li><strong>Late:</strong> Convert random value into lethal – extra combats, huge single turns, or a burst of non-combat damage.</li>
+              <li><strong>Social role:</strong> Natural archenemy magnet. You’re the “fun chaos player” that forces the table to cooperate or die early.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Deck Archetypes &amp; Synergies</h3>
+            <ul>
+              <li><strong>Chaos / Dice Rolling:</strong> Barbarian Class, Farideh-style payoffs, any card that rewards rolling high or rolling often.</li>
+              <li><strong>Big burst turns:</strong> Extra combat steps, Seize-the-Day-type effects, and mana generation to chain multiple spells in a single “ADHD mode” turn.</li>
+              <li><strong>Spell-slinger shell:</strong> Instants and sorceries that clear blockers, point burn, or dig for more gas so Atlas can keep attacking.</li>
+              <li><strong>Protect the hazard:</strong> Lightning Greaves, Swiftfoot Boots, indestructible tricks. If Atlas dies twice, your whole engine slows way down.</li>
+              <li><strong>Topdeck / randomness manipulation:</strong> Scry, Scroll Rack, or similar tools that quietly rig “random” outcomes in your favour.</li>
+              <li><strong>Table politics:</strong> Take risky lines that help the table (shared damage, mass flips) to buy goodwill before going for lethal.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Similar Commanders</h3>
+            <ul>
+              <li><strong>Etali, Primal Storm:</strong> Attacks become random free spells off everyone’s libraries.</li>
+              <li><strong>Okaun &amp; Zndrsplt:</strong> Dice-rolling duo where high rolls create absurd combat swings.</li>
+              <li><strong>Delina, Wild Mage:</strong> Attacks plus d20 rolls for explosive board states.</li>
+              <li><strong>Neheb, the Eternal:</strong> Converts combat damage into mana for massive “one more spell” turns.</li>
+              <li><strong>Norin the Wary (vibes):</strong> Chaos mascot – the board is never stable for long.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KALBINO -->
+    <section class="commander-card kalbino">
+      <div class="commander-inner">
+        <div class="commander-header">
+          <div class="commander-title-block">
+            <div class="commander-name">Kalbino, Master of Missteps</div>
+            <div class="commander-tagline">Face-down schemer – scry, manifest &amp; “is it safe?” politics</div>
+            <div class="pill-row">
+              <span class="pill highlight">Pillowfort Trickster</span>
+              <span class="pill">Face-Down Matters</span>
+              <span class="pill">Value Midrange</span>
+              <span class="pill">Topdeck Manipulation</span>
+              <span class="pill">Political Rattlesnake</span>
+            </div>
+          </div>
+          <div class="color-bars">
+            <span class="color-pill c-w"></span>
+            <span class="color-pill c-u"></span>
+            <span class="color-pill c-b"></span>
+            <span class="identity-label">Esper (WUB)</span>
+          </div>
+        </div>
+
+        <div class="sections">
+          <div class="section">
+            <h3>Table Role</h3>
+            <ul>
+              <li><strong>Early:</strong> Develop mana rocks and cheap scry effects; start building a small army of mysterious 2/2s.</li>
+              <li><strong>Midgame:</strong> Use Duckyos’s Questionable Offer plus hidden information to control combat – attacking you is always a little scary.</li>
+              <li><strong>Late:</strong> Turn your manifested cards into real threats, flip high-CMC bombs at key moments, and grind value with repeated scry triggers.</li>
+              <li><strong>Social role:</strong> You’re the <em>trap player</em>. The table spends a lot of brainpower guessing which face-down creature is actually lethal.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Deck Archetypes &amp; Synergies</h3>
+            <ul>
+              <li><strong>Face-down package:</strong> Manifest and morph creators; cards that care about face-down creatures or discount playing them.</li>
+              <li><strong>Scry engines:</strong> Repeatable scry on artifacts, creatures, or lands to guarantee a manifest trigger every turn cycle.</li>
+              <li><strong>ETB monsters on layaway:</strong> High-mana bombs that are safe to manifest, then flip at instant speed when it’s convenient.</li>
+              <li><strong>Pillowfort tools:</strong> Effects that tax or redirect attacks so opponents are more tempted to gamble with Duckyos instead.</li>
+              <li><strong>Sacrifice &amp; recursion:</strong> Sacrifice manifested creatures for value, then reanimate the big spell you just put in the graveyard.</li>
+              <li><strong>Information abuse:</strong> You know what your face-down cards are – bluff blocks, threaten combat tricks, and mislead the table.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Similar Commanders</h3>
+            <ul>
+              <li><strong>Kadena, Slinking Sorcerer:</strong> Classic morph/manifest value engine.</li>
+              <li><strong>Aminatou, the Fateshifter:</strong> Topdeck manipulation and blink shenanigans.</li>
+              <li><strong>Roon of the Hidden Realm:</strong> Surprise blocks and flips via blink at instant speed.</li>
+              <li><strong>Yennett, Cryptic Sovereign:</strong> Topdeck control where card selection is weaponised.</li>
+              <li><strong>Gonti, Lord of Luxury (vibes):</strong> Hidden information and stealing value from opponents’ decks.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JIGGEDY -->
+    <section class="commander-card jiggedy">
+      <div class="commander-inner">
+        <div class="commander-header">
+          <div class="commander-title-block">
+            <div class="commander-name">Jiggedy, the Recommender</div>
+            <div class="commander-tagline">Political engine – passing “Recommendations” around the table</div>
+            <div class="pill-row">
+              <span class="pill highlight">Deal Maker</span>
+              <span class="pill">Group Hug / Group Slug</span>
+              <span class="pill">Artifact Subtheme</span>
+              <span class="pill">Goad &amp; Forced Combat</span>
+              <span class="pill">Life &amp; Card-Flow Manager</span>
+            </div>
+          </div>
+          <div class="color-bars">
+            <span class="color-pill c-w"></span>
+            <span class="color-pill c-u"></span>
+            <span class="color-pill c-r"></span>
+            <span class="identity-label">Jeskai Politics &amp; Goad</span>
+          </div>
+        </div>
+
+        <div class="sections">
+          <div class="section">
+            <h3>Table Role</h3>
+            <ul>
+              <li><strong>Early:</strong> Hand out the first Recommendation and frame it as “free value” – start building trust with one player.</li>
+              <li><strong>Midgame:</strong> Rotate Recommendations to keep the table unstable: goad the scariest creature, draw cards, and push combat away from you.</li>
+              <li><strong>Late:</strong> Use a critical mass of artifacts, card draw, and goaded boards to finish players already weakened.</li>
+              <li><strong>Social role:</strong> You’re the <em>content curator</em> – suggesting who should attack where and who deserves the next Recommendation.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Deck Archetypes &amp; Synergies</h3>
+            <ul>
+              <li><strong>Political control:</strong> Curses, vote cards, and effects that reward opponents for attacking each other.</li>
+              <li><strong>Artifact recursion:</strong> Recur or copy Recommendation with artifact recursion, blink, or token doublers.</li>
+              <li><strong>Goad package:</strong> Extra goad so creatures are almost never allowed to sit back on defense.</li>
+              <li><strong>Life-total manipulation:</strong> Small life-loss / life-gain effects that make Recommendation decisions weighty.</li>
+              <li><strong>“Gifts” package:</strong> Other permanents to donate and create soft alliances.</li>
+              <li><strong>Instant-speed interaction:</strong> Reward “good recommendations” and punish betrayals immediately.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Similar Commanders</h3>
+            <ul>
+              <li><strong>Xantcha, Sleeper Agent:</strong> Donate a threat; everyone can pump damage and draw cards.</li>
+              <li><strong>Zedruu the Greathearted:</strong> Donation deck where giving things away is value.</li>
+              <li><strong>Karazikar, the Eye Tyrant:</strong> Goad-centric political commander.</li>
+              <li><strong>Breena, the Demagogue:</strong> Incentivises “punch up” attacks for shared value.</li>
+              <li><strong>Kwain, Itinerant Meddler (tone):</strong> Handing out resources in exchange for being left alone… for now.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JAMIE -->
+    <section class="commander-card jamie">
+      <div class="commander-inner">
+        <div class="commander-header">
+          <div class="commander-title-block">
+            <div class="commander-name">Jamie, Who Points at the Crown</div>
+            <div class="commander-tagline">Monarch manager – keeps the crown moving and rewards aggression</div>
+            <div class="pill-row">
+              <span class="pill highlight">Combat Director</span>
+              <span class="pill">Monarch Matters</span>
+              <span class="pill">Aggro / Token Swarm</span>
+              <span class="pill">Political Midrange</span>
+              <span class="pill">Tempo &amp; Card Advantage</span>
+            </div>
+          </div>
+          <div class="color-bars">
+            <span class="color-pill c-r"></span>
+            <span class="color-pill c-w"></span>
+            <span class="color-pill c-b"></span>
+            <span class="identity-label">Mardu Monarchy</span>
+          </div>
+        </div>
+
+        <div class="sections">
+          <div class="section">
+            <h3>Table Role</h3>
+            <ul>
+              <li><strong>Early:</strong> Establish monarchy quickly and build small evasive boards that can reliably steal the crown back.</li>
+              <li><strong>Midgame:</strong> Use Jamie’s triggers to buff attackers and push the crown across the table – especially toward the “archenemy” player.</li>
+              <li><strong>Late:</strong> Turn snowballed monarch draw and combat buffs into lethal swings; punish anyone who thinks they can safely sit on the crown.</li>
+              <li><strong>Social role:</strong> You’re the <em>referee</em>, pointing at who should fight whom this turn.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Deck Archetypes &amp; Synergies</h3>
+            <ul>
+              <li><strong>Monarch package:</strong> Courts, monarch enablers, and cards that reward you for holding or stealing the crown.</li>
+              <li><strong>Go-wide aggro:</strong> Token makers and cheap creatures that can repeatedly swing into the monarch.</li>
+              <li><strong>Combat manipulation:</strong> Goad, forced attacks, or “can’t block” effects to keep the crown moving.</li>
+              <li><strong>Threat assessment tools:</strong> Removal and interaction to back up Jamie’s political pointing.</li>
+              <li><strong>Pillowfort lite:</strong> Small taxes or deterrents that make attacking you expensive unless it’s for the crown.</li>
+              <li><strong>Card draw smoothing:</strong> Extra draw and rummage so you keep gas while everyone brawls.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Similar Commanders</h3>
+            <ul>
+              <li><strong>Queen Marchesa:</strong> Classic monarch gameplan with politics and inevitability.</li>
+              <li><strong>Adriana, Captain of the Guard:</strong> Rewards attacking multiple players with pumped boards.</li>
+              <li><strong>Gahiji, Honored One (vibes):</strong> Buffs attackers to encourage aggression across the table.</li>
+              <li><strong>Brimaz, Blight of Oreskos / Marneus Calgar:</strong> Token-centric combat midrange.</li>
+              <li><strong>Brago, King Eternal (structurally):</strong> Who you attack each turn is a political decision.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAMSEN -->
+    <section class="commander-card mamsen">
+      <div class="commander-inner">
+        <div class="commander-header">
+          <div class="commander-title-block">
+            <div class="commander-name">Mamsen, Keeper of Manners</div>
+            <div class="commander-tagline">Bant etiquette – rewarding good behaviour, taxing bad behaviour</div>
+            <div class="pill-row">
+              <span class="pill highlight">Table Mom</span>
+              <span class="pill">Pillowfort / Control</span>
+              <span class="pill">Food &amp; Clue Tokens</span>
+              <span class="pill">Flash / Instant-Speed Play</span>
+              <span class="pill">Value Engine</span>
+            </div>
+          </div>
+          <div class="color-bars">
+            <span class="color-pill c-g"></span>
+            <span class="color-pill c-w"></span>
+            <span class="color-pill c-u"></span>
+            <span class="identity-label">Bant Politics</span>
+          </div>
+        </div>
+
+        <div class="sections">
+          <div class="section">
+            <h3>Table Role</h3>
+            <ul>
+              <li><strong>Early:</strong> Set expectations: small incentive/punishment triggers that show what “good manners” look like.</li>
+              <li><strong>Midgame:</strong> Amass Food/Clues and other tokens while tapping or redirecting the most aggressive boards.</li>
+              <li><strong>Late:</strong> Turn resource tokens and counters into a dominant board – big vigilant bodies, life buffer, and card advantage.</li>
+              <li><strong>Social role:</strong> You’re the <em>teacher</em>. You reward fair play and punish reckless shenanigans.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Deck Archetypes &amp; Synergies</h3>
+            <ul>
+              <li><strong>Food / Clue / token engines:</strong> Effects that repeatedly create Food, Treasure, or Clues to feed Mamsen’s triggers.</li>
+              <li><strong>Instant-speed interaction:</strong> Counterspells, flash creatures, and tricks on opponents’ turns to maximise “good manners” rewards.</li>
+              <li><strong>Pillowfort &amp; tapdown:</strong> Propaganda-style taxes, tap effects, and “can’t attack you” clauses.</li>
+              <li><strong>Value from tokens:</strong> Sac outlets and payoffs that turn your pile of tokens into cards, life, or +1/+1 counters.</li>
+              <li><strong>Big vigilant bodies:</strong> Creatures that attack while still holding up defense – very “responsible gameplay”.</li>
+              <li><strong>Soft group hug:</strong> Occasional shared resources (extra Food or cards) to keep the table on your side.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Similar Commanders</h3>
+            <ul>
+              <li><strong>Kynaios and Tiro of Meletis:</strong> Group-hug value that slows the game and rewards civilised play.</li>
+              <li><strong>Kwain, Itinerant Meddler:</strong> Tiny politics commander handing out cards and life for safety.</li>
+              <li><strong>Alela, Artful Provocateur:</strong> Turns enchantments and artifacts into fliers – value from “doing the right thing”.</li>
+              <li><strong>Chulane, Teller of Tales (toned down):</strong> Bant good-stuff engine wanting long, grindy games.</li>
+              <li><strong>Elminster / Talion-style commanders:</strong> Reward careful spellcasting patterns over brute force.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Use this like a pre-game briefing: pick a commander, read their strip, and you instantly know your table role.</span>
+    <span>OG Wolf Squad – Commander Set V1.0</span>
+  </footer>
+</body>
+</html>
